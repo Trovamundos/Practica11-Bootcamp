@@ -79,11 +79,10 @@ class ParticularReservations extends HotelReservations {
     }
 
     calculateSubtotal() {
-        for (let reservation of this._list) {
-            this._subtotal += (this.calculateRoom(reservation.tipoHabitacion) * reservation.noches)
-            + (this.calculateAdditionalPerson(reservation.pax) * reservation.noches)
-            + (this.calculateBreakfast(reservation.desayuno) * reservation.noches);
-        }
+        this._subtotal = this._list.reduce((acc, { tipoHabitacion, desayuno, pax, noches }) =>
+        acc + (this.calculateRoom(tipoHabitacion) * noches)
+        + (this.calculateAdditionalPerson(pax) * noches)
+        + (this.calculateBreakfast(desayuno) * noches), 0);
     }
 
     calculateTotal() {
@@ -99,11 +98,10 @@ class TourReservations extends HotelReservations {
     }
 
     calculateSubtotal () {
-        for (let reservation of this._list) {
-            this._subtotal += (this._roomOffer * reservation.noches)
-            + ( this.calculateAdditionalPerson(reservation.pax) * reservation.noches)
-            + (this.calculateBreakfast(reservation.desayuno) * reservation.noches);
-        }
+        this._subtotal = this._list.reduce((acc, { desayuno, pax, noches }) =>
+        acc + (this._roomOffer * noches)
+        + (this.calculateAdditionalPerson(pax) * noches)
+        + (this.calculateBreakfast(desayuno) * noches), 0);
     }
 
     calculateTotal() {
